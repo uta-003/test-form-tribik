@@ -30,9 +30,37 @@
     <style>
         body { font-family: 'Inter', sans-serif; }
         @media print {
-            body { background: white !important; -webkit-print-color-adjust: exact; }
+            @page {
+                size: A4 portrait;
+                margin: 6mm;
+            }
+            body {
+                background: white !important;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+                padding: 0 !important;
+                margin: 0 !important;
+            }
             .no-print { display: none !important; }
-            .print-container { box-shadow: none !important; border: none !important; margin: 0 !important; padding: 4px !important; width: 100% !important; max-width: 100% !important; }
+            .print-container {
+                box-shadow: none !important;
+                border: 1px solid #F9D2BA !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                width: 100% !important;
+                max-width: 100% !important;
+                font-size: 10px !important;
+            }
+            input, select, textarea {
+                border: none !important;
+                background: transparent !important;
+                box-shadow: none !important;
+                padding: 0 !important;
+                appearance: none;
+                -webkit-appearance: none;
+            }
+            textarea { resize: none; }
+            table { font-size: 10px !important; }
         }
     </style>
 </head>
@@ -176,7 +204,7 @@
                     <div class="flex justify-between items-center text-gray-700 border-b border-memoPeach pb-0.5">
                         <div class="flex items-center space-x-1">
                             <span class="font-medium text-[11px]">PPN:</span>
-                            <label class="inline-flex items-center cursor-pointer text-[10px] text-memoBrown font-semibold">
+                            <label class="no-print inline-flex items-center cursor-pointer text-[10px] text-memoBrown font-semibold">
                                 <input type="checkbox" id="ppnToggle" onchange="calculateTotals()" checked class="mr-1 rounded text-memoGreen focus:ring-memoGreen"> (11%)
                             </label>
                         </div>
