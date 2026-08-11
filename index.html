@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Modern Memo Application - TRB</title>
+    <title>Modern Memo Application - PT Balai Lelang Tribik</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Google Fonts Inter -->
@@ -166,7 +166,7 @@
                     </div>
                 </div>
 
-                <!-- Totals Summary in exact order: Sub Total, PPN, DP, Grand Total -->
+                <!-- Totals Summary in exact order: Sub Total, PPN, Grand Total, DP, Sisa Pembayaran -->
                 <div class="md:col-span-5 bg-memoCream/40 border border-memoPeach rounded p-1.5 space-y-1">
                     <div class="flex justify-between items-center text-gray-700">
                         <span class="font-medium text-[11px]">Sub Total:</span>
@@ -182,6 +182,11 @@
                         </div>
                         <span id="displayPpn" class="font-mono font-semibold text-xs">Rp 0</span>
                     </div>
+                    <!-- Grand Total Section -->
+                    <div class="flex justify-between items-center text-gray-700 border-b border-memoPeach pb-0.5">
+                        <span class="font-bold text-xs uppercase text-memoGreen">Grand Total:</span>
+                        <span id="displayGrandTotal" class="font-mono font-bold text-xs text-memoGreen">Rp 0</span>
+                    </div>
                     <!-- DP Section -->
                     <div class="flex justify-between items-center text-gray-700 border-b border-memoPeach pb-0.5">
                         <div class="flex items-center space-x-1">
@@ -191,10 +196,10 @@
                         </div>
                         <span id="displayDpAmount" class="font-mono font-semibold text-xs">Rp 0</span>
                     </div>
-                    <!-- Grand Total Section -->
-                    <div class="flex justify-between items-center text-gray-700 pt-0.5">
-                        <span class="font-bold text-xs uppercase text-memoGreen">Grand Total:</span>
-                        <span id="displayGrandTotal" class="font-mono font-bold text-sm bg-memoGreen text-memoCream px-2 py-0.5 rounded">Rp 0</span>
+                    <!-- Sisa Pembayaran Section (Conditional) -->
+                    <div id="sisaContainer" class="flex justify-between items-center text-gray-700 pt-0.5 hidden">
+                        <span class="font-bold text-xs uppercase text-memoBrown">Sisa Pembayaran:</span>
+                        <span id="displaySisa" class="font-mono font-bold text-sm bg-memoGreen text-memoCream px-2 py-0.5 rounded">Rp 0</span>
                     </div>
                 </div>
             </div>
@@ -216,7 +221,7 @@
                     </div>
                 </div>
 
-                <!-- 2. MENGETAHUI (2 Signatories inside with signature space) -->
+                <!-- 2. MENGETAHUI -->
                 <div class="border border-memoPeach rounded bg-memoCream/20 p-1.5 flex flex-col justify-between">
                     <div>
                         <div class="font-bold text-memoGreen uppercase tracking-wider mb-1">Mengetahui</div>
@@ -239,7 +244,7 @@
                     </div>
                 </div>
 
-                <!-- 3. MENYETUJUI (2 Signatories inside with signature space) -->
+                <!-- 3. MENYETUJUI -->
                 <div class="border border-memoPeach rounded bg-memoCream/20 p-1.5 flex flex-col justify-between">
                     <div>
                         <div class="font-bold text-memoGreen uppercase tracking-wider mb-1">Menyetujui</div>
@@ -481,17 +486,29 @@
             let usePpn = document.getElementById('ppnToggle').checked;
             let ppn = usePpn ? subTotal * 0.11 : 0;
             
-            let dpPercent = parseFloat(document.getElementById('dpPercent').value) || 0;
             let grandTotal = subTotal + ppn;
+            let dpPercent = parseFloat(document.getElementById('dpPercent').value) || 0;
             let dpAmount = (grandTotal * dpPercent) / 100;
+            let sisaPembayaran = grandTotal - dpAmount;
 
             document.getElementById('displaySubTotal').innerText = `Rp ${subTotal.toLocaleString('id-ID')}`;
             document.getElementById('displayPpn').innerText = `Rp ${ppn.toLocaleString('id-ID')}`;
-            document.getElementById('displayDpAmount').innerText = `Rp ${dpAmount.toLocaleString('id-ID')}`;
             document.getElementById('displayGrandTotal').innerText = `Rp ${grandTotal.toLocaleString('id-ID')}`;
+            document.getElementById('displayDpAmount').innerText = `Rp ${dpAmount.toLocaleString('id-ID')}`;
+            document.getElementById('displaySisa').innerText = `Rp ${sisaPembayaran.toLocaleString('id-ID')}`;
 
-            let targetVal = dpPercent > 0 ? dpAmount : grandTotal;
-            let labelText = dpPercent > 0 ? `DP (${dpPercent}%)` : 'Grand Total';
+            let sisaContainer = document.getElementById('sisaContainer');
+            let targetVal = grandTotal;
+            let labelText = 'Grand Total';
+
+            if (dpPercent > 0) {
+                sisaContainer.classList.remove('hidden');
+                targetVal = sisaPembayaran;
+                labelText = `Sisa Pembayaran (DP ${dpPercent}%)`;
+            } else {
+                sisaContainer.classList.add('hidden');
+            }
+
             document.getElementById('terbilangLabel').innerText = labelText;
             document.getElementById('terbilangText').innerText = getTerbilangRupiah(targetVal);
         }
@@ -563,9 +580,10 @@
             }, 0);
             let usePpn = document.getElementById('ppnToggle').checked;
             let computedPpn = usePpn ? computedSubTotal * 0.11 : 0;
-            let dpPercent = parseFloat(document.getElementById('dpPercent').value) || 0;
             let computedGrandTotal = computedSubTotal + computedPpn;
+            let dpPercent = parseFloat(document.getElementById('dpPercent').value) || 0;
             let computedDpAmount = (computedGrandTotal * dpPercent) / 100;
+            let computedSisa = computedGrandTotal - computedDpAmount;
 
             const payload = {
                 memoNumber: document.getElementById('memoNumber').value,
@@ -577,9 +595,10 @@
                 items: JSON.stringify(items),
                 subTotal: computedSubTotal,
                 ppn: computedPpn,
+                grandTotal: computedGrandTotal,
                 dpPercent: dpPercent,
                 dpAmount: computedDpAmount,
-                grandTotal: computedGrandTotal,
+                sisaPembayaran: computedSisa,
                 terbilang: document.getElementById('terbilangText').innerText,
                 notes: document.getElementById('memoNotes').value
             };
