@@ -30,8 +30,8 @@
         body { font-family: 'Inter', sans-serif; }
         @media print {
             @page {
-                size: 5.5in 8.5in;
-                margin: 4mm 6mm;
+                size: A4 portrait;
+                margin: 8mm;
             }
             body {
                 background: white !important;
@@ -39,18 +39,16 @@
                 print-color-adjust: exact;
                 padding: 0 !important;
                 margin: 0 !important;
-                transform: scale(0.98);
-                transform-origin: top center;
             }
             .no-print { display: none !important; }
             .print-container {
                 box-shadow: none !important;
                 border: 1px solid #F9D2BA !important;
                 margin: 0 auto !important;
-                padding: 2px !important;
+                padding: 6px !important;
                 width: 100% !important;
                 max-width: 100% !important;
-                font-size: 9.5px !important;
+                font-size: 10px !important;
                 background: white !important;
             }
             input, select, textarea {
@@ -60,9 +58,10 @@
                 padding: 0 !important;
                 appearance: none;
                 -webkit-appearance: none;
+                font-size: 10px !important;
             }
-            textarea { resize: none; }
-            table { font-size: 9.5px !important; }
+            textarea { resize: none; height: 32px !important; }
+            table { font-size: 10px !important; }
             * {
                 -webkit-print-color-adjust: exact !important;
                 print-color-adjust: exact !important;
@@ -70,7 +69,7 @@
         }
     </style>
 </head>
-<body class="bg-memoCream/40 min-h-screen py-2 px-2 flex flex-col items-center text-xs">
+<body class="bg-memoCream/40 min-h-screen py-3 px-2 flex flex-col items-center text-xs">
 
     <!-- Top Action Bar (No Print) -->
     <div class="no-print w-full max-w-4xl bg-white shadow-md rounded-lg p-2 mb-2 flex flex-wrap items-center justify-between gap-2 border border-memoPeach">
@@ -101,10 +100,10 @@
     </div>
 
     <!-- Main Memo Container -->
-    <div class="print-container w-full max-w-4xl bg-white shadow-xl rounded-xl border border-memoPeach/80 overflow-hidden flex flex-col justify-between p-2">
+    <div class="print-container w-full max-w-4xl bg-white shadow-xl rounded-xl border border-memoPeach/80 overflow-hidden flex flex-col justify-between p-3">
         
         <!-- Memo Header Banner -->
-        <div class="bg-memoGreen text-memoCream px-3 py-2 flex justify-between items-center rounded-lg mb-1.5">
+        <div class="bg-memoGreen text-memoCream px-4 py-3 flex justify-between items-center rounded-lg mb-2">
             <div>
                 <h1 class="font-bold text-sm tracking-wider uppercase text-memoCream">PT Balai Lelang Tribik</h1>
                 <p class="text-[10px] text-memoPeach/90">MEMO KAS KELUAR (CASH OUT)</p>
@@ -115,12 +114,12 @@
             </div>
         </div>
 
-        <div class="space-y-1.5">
+        <div class="space-y-2">
             <!-- Metadata Grid -->
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-2 bg-memoCream/30 p-1.5 rounded-lg border border-memoPeach/60">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-2 bg-memoCream/30 p-2 rounded-lg border border-memoPeach/60">
                 
                 <!-- Left Metadata Details -->
-                <div class="space-y-1">
+                <div class="space-y-1.5">
                     <div class="flex items-center justify-between">
                         <label class="font-semibold text-memoGreen text-[11px]">Nomor Memo:</label>
                         <input type="text" id="memoNumber" readonly class="bg-white border border-memoPeach rounded px-1.5 py-0.5 font-mono font-bold text-memoGreen text-right w-44 shadow-inner text-xs" />
@@ -142,7 +141,7 @@
                 </div>
 
                 <!-- Right Metadata Details -->
-                <div class="space-y-1">
+                <div class="space-y-1.5">
                     <div class="flex items-center justify-between">
                         <label class="font-semibold text-gray-700 text-[11px]">Dibayar Ke:</label>
                         <input type="text" id="paidTo" class="bg-white border border-memoPeach rounded px-1.5 py-0.5 w-44 focus:outline-none focus:border-memoGreen text-xs" />
@@ -163,12 +162,12 @@
                 <table class="w-full border-collapse border border-memoPeach text-xs">
                     <thead>
                         <tr class="bg-memoGreen text-memoCream text-[11px]">
-                            <th class="border border-memoPeach/50 p-1 w-8 text-center">No</th>
-                            <th class="border border-memoPeach/50 p-1 text-left px-2">Keterangan Pengeluaran</th>
-                            <th class="border border-memoPeach/50 p-1 w-16 text-center">QTY</th>
-                            <th class="border border-memoPeach/50 p-1 w-28 text-right px-2">Harga Satuan (Rp)</th>
-                            <th class="border border-memoPeach/50 p-1 w-28 text-right px-2">Sub Total (Rp)</th>
-                            <th class="no-print border border-memoPeach/50 p-1 w-10 text-center"><i class="fa-solid fa-bolt"></i></th>
+                            <th class="border border-memoPeach/50 p-1.5 w-8 text-center">No</th>
+                            <th class="border border-memoPeach/50 p-1.5 text-left px-2">Keterangan Pengeluaran</th>
+                            <th class="border border-memoPeach/50 p-1.5 w-16 text-center">QTY</th>
+                            <th class="border border-memoPeach/50 p-1.5 w-28 text-right px-2">Harga Satuan (Rp)</th>
+                            <th class="border border-memoPeach/50 p-1.5 w-28 text-right px-2">Sub Total (Rp)</th>
+                            <th class="no-print border border-memoPeach/50 p-1.5 w-10 text-center"><i class="fa-solid fa-bolt"></i></th>
                         </tr>
                     </thead>
                     <tbody id="itemsTableBody">
@@ -178,37 +177,37 @@
             </div>
 
             <!-- Calculations & Terbilang Section -->
-            <div class="grid grid-cols-1 md:grid-cols-12 gap-1.5 items-start">
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-2 mb-1 items-start">
                 
                 <!-- Terbilang & Catatan Box -->
-                <div class="md:col-span-7 space-y-1">
-                    <div class="bg-memoCream/30 border border-memoPeach rounded p-1.5 flex flex-col justify-between">
+                <div class="md:col-span-7 space-y-1.5">
+                    <div class="bg-memoCream/30 border border-memoPeach rounded p-2 flex flex-col justify-between">
                         <div>
                             <span class="text-[10px] font-bold text-memoBrown uppercase tracking-wide block mb-0.5">
                                 <i class="fa-solid fa-quote-left mr-1"></i> Terbilang (<span id="terbilangLabel">Grand Total</span>):
                             </span>
-                            <p id="terbilangText" class="text-memoGreen font-semibold italic text-[11px] leading-tight min-h-[22px] bg-white/70 p-1 rounded border border-memoPeach/50">
+                            <p id="terbilangText" class="text-memoGreen font-semibold italic text-[11px] leading-tight min-h-[26px] bg-white/70 p-1.5 rounded border border-memoPeach/50">
                                 (Belum ada nominal)
                             </p>
                         </div>
                     </div>
                     <!-- Catatan Section -->
-                    <div class="bg-memoCream/30 border border-memoPeach rounded p-1.5">
+                    <div class="bg-memoCream/30 border border-memoPeach rounded p-2">
                         <span class="text-[10px] font-bold text-memoBrown uppercase tracking-wide block mb-0.5">
                             <i class="fa-solid fa-pen-to-square mr-1"></i> Catatan:
                         </span>
-                        <textarea id="memoNotes" class="w-full bg-white/80 border border-memoPeach rounded p-1 text-[11px] text-gray-700 focus:outline-none focus:border-memoGreen resize-none h-10"></textarea>
+                        <textarea id="memoNotes" class="w-full bg-white/80 border border-memoPeach rounded p-1.5 text-[11px] text-gray-700 focus:outline-none focus:border-memoGreen resize-none h-12"></textarea>
                     </div>
                 </div>
 
                 <!-- Totals Summary in exact order: Sub Total, PPN, Grand Total, DP, Sisa Pembayaran -->
-                <div class="md:col-span-5 bg-memoCream/40 border border-memoPeach rounded p-1.5 space-y-1">
+                <div class="md:col-span-5 bg-memoCream/40 border border-memoPeach rounded p-2 space-y-1.5">
                     <div class="flex justify-between items-center text-gray-700">
                         <span class="font-medium text-[11px]">Sub Total:</span>
                         <span id="displaySubTotal" class="font-mono font-semibold text-xs">Rp 0</span>
                     </div>
                     <!-- PPN Section -->
-                    <div class="flex justify-between items-center text-gray-700 border-b border-memoPeach pb-0.5">
+                    <div class="flex justify-between items-center text-gray-700 border-b border-memoPeach pb-1">
                         <div class="flex items-center space-x-1">
                             <span class="font-medium text-[11px]">PPN:</span>
                             <label class="inline-flex items-center cursor-pointer text-[10px] text-memoBrown font-semibold">
@@ -218,12 +217,12 @@
                         <span id="displayPpn" class="font-mono font-semibold text-xs">Rp 0</span>
                     </div>
                     <!-- Grand Total Section -->
-                    <div class="flex justify-between items-center text-gray-700 border-b border-memoPeach pb-0.5">
+                    <div class="flex justify-between items-center text-gray-700 border-b border-memoPeach pb-1">
                         <span class="font-bold text-xs uppercase text-memoGreen">Grand Total:</span>
                         <span id="displayGrandTotal" class="font-mono font-bold text-xs text-memoGreen">Rp 0</span>
                     </div>
                     <!-- DP Section -->
-                    <div class="flex justify-between items-center text-gray-700 border-b border-memoPeach pb-0.5">
+                    <div class="flex justify-between items-center text-gray-700 border-b border-memoPeach pb-1">
                         <div class="flex items-center space-x-1">
                             <span class="font-medium text-[11px]">DP:</span>
                             <input type="number" id="dpPercent" value="0" min="0" max="100" oninput="calculateTotals()" class="w-12 text-center bg-white border border-memoPeach rounded px-1 py-0.5 font-mono text-xs focus:outline-none focus:border-memoGreen" />
@@ -240,10 +239,10 @@
             </div>
 
             <!-- Signatures Section - Compact and Neatly Aligned -->
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-1.5 text-center text-[10px] pt-1 border-t border-memoPeach">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-2 text-center text-[10px] pt-1 border-t border-memoPeach">
                 
                 <!-- 1. PEMOHON -->
-                <div class="border border-memoPeach rounded bg-memoCream/20 p-1.5 flex flex-col justify-between">
+                <div class="border border-memoPeach rounded bg-memoCream/20 p-2 flex flex-col justify-between">
                     <div>
                         <div class="font-bold text-memoGreen uppercase tracking-wider mb-0.5">Pemohon</div>
                     </div>
@@ -257,7 +256,7 @@
                 </div>
 
                 <!-- 2. MENGETAHUI -->
-                <div class="border border-memoPeach rounded bg-memoCream/20 p-1.5 flex flex-col justify-between">
+                <div class="border border-memoPeach rounded bg-memoCream/20 p-2 flex flex-col justify-between">
                     <div>
                         <div class="font-bold text-memoGreen uppercase tracking-wider mb-1">Mengetahui</div>
                         <div class="grid grid-cols-2 gap-1">
@@ -280,7 +279,7 @@
                 </div>
 
                 <!-- 3. MENYETUJUI -->
-                <div class="border border-memoPeach rounded bg-memoCream/20 p-1.5 flex flex-col justify-between">
+                <div class="border border-memoPeach rounded bg-memoCream/20 p-2 flex flex-col justify-between">
                     <div>
                         <div class="font-bold text-memoGreen uppercase tracking-wider mb-1">Menyetujui</div>
                         <div class="grid grid-cols-2 gap-1">
@@ -307,7 +306,7 @@
         </div>
 
         <!-- Footer Note -->
-        <div class="bg-memoCream/50 px-3 py-1 border-t border-memoPeach text-center text-[9px] text-gray-600 flex justify-between items-center mt-1">
+        <div class="bg-memoCream/50 px-3 py-1.5 border-t border-memoPeach text-center text-[9px] text-gray-600 flex justify-between items-center mt-2">
             <span>2026 © Nunu Tribik. All Rights Reserved.</span>
             <span>Dicetak otomatis pada: <span id="printTimestamp"></span></span>
         </div>
@@ -443,20 +442,20 @@
                 let tr = document.createElement('tr');
                 tr.className = "hover:bg-memoCream/20 transition";
                 tr.innerHTML = `
-                    <td class="border border-memoPeach/50 p-1 text-center font-mono">${index + 1}</td>
-                    <td class="border border-memoPeach/50 p-1">
+                    <td class="border border-memoPeach/50 p-1.5 text-center font-mono">${index + 1}</td>
+                    <td class="border border-memoPeach/50 p-1.5">
                         <input type="text" value="${item.description}" oninput="updateItemData(${index}, 'description', this.value)" class="w-full bg-transparent px-1 focus:outline-none focus:bg-white rounded text-xs" />
                     </td>
-                    <td class="border border-memoPeach/50 p-1 text-center">
+                    <td class="border border-memoPeach/50 p-1.5 text-center">
                         <input type="text" value="${item.qty}" oninput="updateItemData(${index}, 'qty', this.value)" class="w-full text-center bg-transparent px-1 focus:outline-none focus:bg-white rounded font-mono text-xs" />
                     </td>
-                    <td class="border border-memoPeach/50 p-1 text-right">
+                    <td class="border border-memoPeach/50 p-1.5 text-right">
                         <input type="text" value="${item.price}" oninput="updatePriceInput(${index}, this)" class="w-full text-right bg-transparent px-1 focus:outline-none focus:bg-white rounded font-mono text-xs" />
                     </td>
-                    <td class="border border-memoPeach/50 p-1 text-right font-mono font-medium px-2" id="subtotal_${index}">
+                    <td class="border border-memoPeach/50 p-1.5 text-right font-mono font-medium px-2" id="subtotal_${index}">
                         Rp ${subTotal.toLocaleString('id-ID')}
                     </td>
-                    <td class="no-print border border-memoPeach/50 p-1 text-center">
+                    <td class="no-print border border-memoPeach/50 p-1.5 text-center">
                         <button onclick="removeItem(${index})" class="text-red-500 hover:text-red-700 p-0.5 rounded transition" title="Hapus Baris">
                             <i class="fa-solid fa-trash-can text-xs"></i>
                         </button>
