@@ -1,1 +1,628 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modern Memo Application - TRB</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        memoGreen: '#1D4533',
+                        memoCream: '#F7EAE0',
+                        memoPeach: '#F9D2BA',
+                        memoBrown: '#5E3122'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        @media print {
+            body { background: white !important; -webkit-print-color-adjust: exact; }
+            .no-print { display: none !important; }
+            .print-container { box-shadow: none !important; border: none !important; margin: 0 !important; padding: 4px !important; width: 100% !important; max-width: 100% !important; }
+        }
+    </style>
+</head>
+<body class="bg-memoCream/40 min-h-screen py-3 px-2 flex flex-col items-center text-xs">
 
+    <!-- Top Action Bar (No Print) -->
+    <div class="no-print w-full max-w-4xl bg-white shadow-md rounded-lg p-2.5 mb-2 flex flex-wrap items-center justify-between gap-2 border border-memoPeach">
+        <div class="flex items-center space-x-2">
+            <span class="bg-memoGreen text-memoCream px-2.5 py-1 rounded-md font-bold text-xs"><i class="fa-solid fa-receipt mr-1"></i> TRB MEMO</span>
+            <span class="text-memoBrown font-medium text-xs">Sistem Pengeluaran & Pembayaran Terpadu</span>
+        </div>
+        <div class="flex flex-wrap items-center gap-1.5">
+            <button onclick="addNewRow()" class="bg-memoPeach text-memoBrown hover:bg-memoBrown hover:text-memoCream px-2.5 py-1 rounded font-semibold transition text-xs flex items-center shadow-sm">
+                <i class="fa-solid fa-plus mr-1"></i> Baris
+            </button>
+            <button onclick="resetMemoForm()" class="bg-gray-200 text-gray-700 hover:bg-gray-300 px-2.5 py-1 rounded font-semibold transition text-xs flex items-center">
+                <i class="fa-solid fa-rotate-left mr-1"></i> Reset
+            </button>
+            <button onclick="openConfigModal()" class="bg-memoBrown text-memoCream hover:bg-memoGreen px-2.5 py-1 rounded font-semibold transition text-xs flex items-center">
+                <i class="fa-solid fa-gear mr-1"></i> Webhook
+            </button>
+            <button onclick="sendToSpreadsheet()" id="btnSend" class="bg-memoGreen text-memoCream hover:bg-memoBrown px-3 py-1 rounded font-semibold transition text-xs flex items-center shadow-sm">
+                <i class="fa-solid fa-cloud-arrow-up mr-1"></i> Kirim Sheet
+            </button>
+            <button onclick="window.print()" class="bg-amber-600 text-white hover:bg-amber-700 px-3 py-1 rounded font-semibold transition text-xs flex items-center shadow-sm">
+                <i class="fa-solid fa-print mr-1"></i> Cetak / PDF
+            </button>
+        </div>
+    </div>
+
+    <!-- Main Memo Container -->
+    <div class="print-container w-full max-w-4xl bg-white shadow-xl rounded-xl border border-memoPeach/80 overflow-hidden flex flex-col justify-between">
+        
+        <!-- Memo Header Banner -->
+        <div class="bg-memoGreen text-memoCream px-4 py-3 flex justify-between items-center border-b-2 border-memoPeach">
+            <div class="flex items-center space-x-3">
+                <div>
+                    <h1 class="font-bold text-sm tracking-wider uppercase text-memoCream">PT Balai Lelang Tribik</h1>
+                    <p class="text-[10px] text-memoPeach/90">MEMO KAS KELUAR (CASH OUT)</p>
+                </div>
+            </div>
+            <div class="text-right">
+                <div class="text-[10px] uppercase tracking-wider text-memoPeach font-semibold">Status Dokumen</div>
+                <div class="inline-block bg-memoPeach text-memoBrown px-2 py-0.5 rounded text-[10px] font-bold mt-0.5">FINAL / ACTIVE</div>
+            </div>
+        </div>
+
+        <!-- Memo Metadata Section - Tightly Spaced -->
+        <div class="p-2.5">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-1.5 bg-memoCream/30 p-2 rounded-lg border border-memoPeach/60 mb-1.5">
+                
+                <!-- Left Metadata Details -->
+                <div class="space-y-1">
+                    <div class="flex items-center justify-between">
+                        <label class="font-semibold text-memoGreen text-[11px]">Nomor Memo:</label>
+                        <input type="text" id="memoNumber" readonly class="bg-white border border-memoPeach rounded px-1.5 py-0.5 font-mono font-bold text-memoGreen text-right w-44 shadow-inner text-xs" />
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <label class="font-semibold text-gray-700 text-[11px]">Tanggal Dibuat:</label>
+                        <input type="text" id="memoDate" readonly class="bg-white border border-memoPeach rounded px-1.5 py-0.5 text-right w-44 text-gray-700 text-xs" />
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <label class="font-semibold text-gray-700 text-[11px]">Divisi:</label>
+                        <select id="memoDivision" class="bg-white border border-memoPeach rounded px-1.5 py-0.5 text-right w-44 font-medium text-memoGreen focus:outline-none text-xs">
+                            <option value="IT & Marcom">IT & Marcom</option>
+                            <option value="HR, GA & IT Marcom">HR, GA & IT Marcom</option>
+                            <option value="Operasional & Marketing">Operasional & Marketing</option>
+                            <option value="Acc & Finance">Acc & Finance</option>
+                            <option value="Direksi">Direksi</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Right Metadata Details -->
+                <div class="space-y-1">
+                    <div class="flex items-center justify-between">
+                        <label class="font-semibold text-gray-700 text-[11px]">Dibayar Ke:</label>
+                        <input type="text" id="paidTo" placeholder="Nama Penerima / Vendor" class="bg-white border border-memoPeach rounded px-1.5 py-0.5 w-44 focus:outline-none focus:border-memoGreen text-xs" />
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <label class="font-semibold text-gray-700 text-[11px]">No. Rek / VA:</label>
+                        <input type="text" id="bankAccount" placeholder="Nomor Rekening / VA" class="bg-white border border-memoPeach rounded px-1.5 py-0.5 w-44 font-mono focus:outline-none focus:border-memoGreen text-xs" />
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <label class="font-semibold text-gray-700 text-[11px]">Nama Bank:</label>
+                        <input type="text" id="bankName" placeholder="Contoh: BCA, Mandiri" class="bg-white border border-memoPeach rounded px-1.5 py-0.5 w-44 focus:outline-none focus:border-memoGreen text-xs" />
+                    </div>
+                </div>
+            </div>
+
+            <!-- Items Table Section -->
+            <div class="mb-1.5 overflow-x-auto">
+                <table class="w-full border-collapse border border-memoPeach text-xs">
+                    <thead>
+                        <tr class="bg-memoGreen text-memoCream text-[11px]">
+                            <th class="border border-memoPeach/50 p-1 w-8 text-center">No</th>
+                            <th class="border border-memoPeach/50 p-1 text-left px-2">Keterangan Pengeluaran</th>
+                            <th class="border border-memoPeach/50 p-1 w-16 text-center">QTY</th>
+                            <th class="border border-memoPeach/50 p-1 w-28 text-right px-2">Harga Satuan (Rp)</th>
+                            <th class="border border-memoPeach/50 p-1 w-28 text-right px-2">Sub Total (Rp)</th>
+                            <th class="no-print border border-memoPeach/50 p-1 w-10 text-center"><i class="fa-solid fa-bolt"></i></th>
+                        </tr>
+                    </thead>
+                    <tbody id="itemsTableBody">
+                        <!-- Rows injected via JS -->
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Calculations & Terbilang Section -->
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-1 mb-1 items-start">
+                
+                <!-- Terbilang & Catatan Box -->
+                <div class="md:col-span-7 space-y-1">
+                    <div class="bg-memoCream/30 border border-memoPeach rounded p-1.5 flex flex-col justify-between">
+                        <div>
+                            <span class="text-[10px] font-bold text-memoBrown uppercase tracking-wide block mb-0.5">
+                                <i class="fa-solid fa-quote-left mr-1"></i> Terbilang (<span id="terbilangLabel">Grand Total</span>):
+                            </span>
+                            <p id="terbilangText" class="text-memoGreen font-semibold italic text-[11px] leading-tight min-h-[24px] bg-white/70 p-1 rounded border border-memoPeach/50">
+                                (Belum ada nominal)
+                            </p>
+                        </div>
+                    </div>
+                    <!-- Catatan Section -->
+                    <div class="bg-memoCream/30 border border-memoPeach rounded p-1.5">
+                        <span class="text-[10px] font-bold text-memoBrown uppercase tracking-wide block mb-0.5">
+                            <i class="fa-solid fa-pen-to-square mr-1"></i> Catatan:
+                        </span>
+                        <textarea id="memoNotes" placeholder="Tambahkan catatan khusus memo di sini..." class="w-full bg-white/80 border border-memoPeach rounded p-1 text-[11px] text-gray-700 focus:outline-none focus:border-memoGreen resize-none h-12"></textarea>
+                    </div>
+                </div>
+
+                <!-- Totals Summary in exact order: Sub Total, PPN, DP, Grand Total -->
+                <div class="md:col-span-5 bg-memoCream/40 border border-memoPeach rounded p-1.5 space-y-1">
+                    <div class="flex justify-between items-center text-gray-700">
+                        <span class="font-medium text-[11px]">Sub Total:</span>
+                        <span id="displaySubTotal" class="font-mono font-semibold text-xs">Rp 0</span>
+                    </div>
+                    <!-- PPN Section -->
+                    <div class="flex justify-between items-center text-gray-700 border-b border-memoPeach pb-0.5">
+                        <div class="flex items-center space-x-1">
+                            <span class="font-medium text-[11px]">PPN:</span>
+                            <label class="inline-flex items-center cursor-pointer text-[10px] text-memoBrown font-semibold">
+                                <input type="checkbox" id="ppnToggle" onchange="calculateTotals()" checked class="mr-1 rounded text-memoGreen focus:ring-memoGreen"> (11%)
+                            </label>
+                        </div>
+                        <span id="displayPpn" class="font-mono font-semibold text-xs">Rp 0</span>
+                    </div>
+                    <!-- DP Section -->
+                    <div class="flex justify-between items-center text-gray-700 border-b border-memoPeach pb-0.5">
+                        <div class="flex items-center space-x-1">
+                            <span class="font-medium text-[11px]">DP:</span>
+                            <input type="number" id="dpPercent" value="0" min="0" max="100" oninput="calculateTotals()" class="w-12 text-center bg-white border border-memoPeach rounded px-1 py-0.5 font-mono text-xs focus:outline-none focus:border-memoGreen" />
+                            <span class="text-[10px] text-memoBrown font-semibold">%</span>
+                        </div>
+                        <span id="displayDpAmount" class="font-mono font-semibold text-xs">Rp 0</span>
+                    </div>
+                    <!-- Grand Total Section -->
+                    <div class="flex justify-between items-center text-gray-700 pt-0.5">
+                        <span class="font-bold text-xs uppercase text-memoGreen">Grand Total:</span>
+                        <span id="displayGrandTotal" class="font-mono font-bold text-sm bg-memoGreen text-memoCream px-2 py-0.5 rounded">Rp 0</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Signatures Section - Compact and Neatly Aligned -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-1.5 text-center text-[10px] pt-1 border-t border-memoPeach">
+                
+                <!-- 1. PEMOHON -->
+                <div class="border border-memoPeach rounded bg-memoCream/20 p-1.5 flex flex-col justify-between">
+                    <div>
+                        <div class="font-bold text-memoGreen uppercase tracking-wider mb-0.5">Pemohon</div>
+                    </div>
+                    <div class="flex flex-col justify-between">
+                        <div class="h-12"></div>
+                        <div class="flex flex-col items-center justify-end pb-0.5">
+                            <div class="font-bold text-gray-800 leading-tight">Eko Nugraha Wicaksono</div>
+                            <div class="text-memoBrown text-[8px] leading-tight mt-0.5 text-center">IT & Marcom</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2. MENGETAHUI (2 Signatories inside with signature space) -->
+                <div class="border border-memoPeach rounded bg-memoCream/20 p-1.5 flex flex-col justify-between">
+                    <div>
+                        <div class="font-bold text-memoGreen uppercase tracking-wider mb-1">Mengetahui</div>
+                        <div class="grid grid-cols-2 gap-1">
+                            <div class="flex flex-col justify-between border-r border-memoPeach/60 pr-1">
+                                <div class="h-12"></div>
+                                <div class="flex flex-col items-center justify-end pb-0.5">
+                                    <div class="font-bold text-gray-800 leading-tight">Siti Fatimah</div>
+                                    <div class="text-memoBrown text-[8px] leading-tight mt-0.5 text-center">Ka. Div. HR, GA & IT Marcom</div>
+                                </div>
+                            </div>
+                            <div class="flex flex-col justify-between pl-1">
+                                <div class="h-12"></div>
+                                <div class="flex flex-col items-center justify-end pb-0.5">
+                                    <div class="font-bold text-gray-800 leading-tight">Suhendra Wahyudi</div>
+                                    <div class="text-memoBrown text-[8px] leading-tight mt-0.5 text-center">Ka. Div. Operasional & Marketing</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3. MENYETUJUI (2 Signatories inside with signature space) -->
+                <div class="border border-memoPeach rounded bg-memoCream/20 p-1.5 flex flex-col justify-between">
+                    <div>
+                        <div class="font-bold text-memoGreen uppercase tracking-wider mb-1">Menyetujui</div>
+                        <div class="grid grid-cols-2 gap-1">
+                            <div class="flex flex-col justify-between border-r border-memoPeach/60 pr-1">
+                                <div class="h-12"></div>
+                                <div class="flex flex-col items-center justify-end pb-0.5">
+                                    <div class="font-bold text-gray-800 leading-tight">Martini</div>
+                                    <div class="text-memoBrown text-[8px] leading-tight mt-0.5 text-center">Ka. Div. Acc & Finance</div>
+                                </div>
+                            </div>
+                            <div class="flex flex-col justify-between pl-1">
+                                <div class="h-12"></div>
+                                <div class="flex flex-col items-center justify-end pb-0.5">
+                                    <div class="font-bold text-gray-800 leading-tight">Tjung Subianto</div>
+                                    <div class="text-memoBrown text-[8px] leading-tight mt-0.5 text-center">Direktur</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Footer Note -->
+        <div class="bg-memoCream/50 px-4 py-1.5 border-t border-memoPeach text-center text-[9px] text-gray-600 flex justify-between items-center">
+            <span>2026 © Nunu Tribik. All Rights Reserved.</span>
+            <span>Dicetak otomatis pada: <span id="printTimestamp"></span></span>
+        </div>
+
+    </div>
+
+    <!-- Config Modal for Google Apps Script Webhook -->
+    <div id="configModal" class="fixed inset-0 bg-black/50 z-50 hidden flex items-center justify-center p-3">
+        <div class="bg-white rounded-lg max-w-md w-full p-4 shadow-xl border border-memoPeach">
+            <h3 class="font-bold text-memoGreen text-sm mb-2 flex items-center">
+                <i class="fa-solid fa-cloud-arrow-up mr-1.5"></i> Konfigurasi Google Spreadsheet Webhook
+            </h3>
+            <p class="text-[11px] text-gray-600 mb-3">
+                Masukkan URL Webhook Google Apps Script Anda untuk menyimpan data memo secara otomatis ke Google Sheets.
+            </p>
+            <div class="mb-3">
+                <label class="block font-semibold text-[11px] text-gray-700 mb-1">Google Apps Script Web URL:</label>
+                <input type="text" id="webhookUrl" placeholder="https://script.google.com/macros/s/.../exec" class="w-full border border-memoPeach rounded p-1.5 text-xs focus:outline-none focus:border-memoGreen font-mono" />
+            </div>
+            <div class="flex justify-end space-x-2">
+                <button onclick="closeConfigModal()" class="bg-gray-200 text-gray-700 px-3 py-1 rounded text-xs font-semibold hover:bg-gray-300">Batal</button>
+                <button onclick="saveConfig()" class="bg-memoGreen text-memoCream px-3 py-1 rounded text-xs font-semibold hover:bg-memoBrown">Simpan</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Custom Modal for Notifications (No Alert) -->
+    <div id="customModal" class="fixed inset-0 bg-black/50 z-50 hidden flex items-center justify-center p-3">
+        <div class="bg-white rounded-lg max-w-sm w-full p-4 shadow-xl border border-memoPeach text-center">
+            <div id="modalIcon" class="text-3xl mb-2 text-memoGreen"><i class="fa-solid fa-circle-check"></i></div>
+            <h4 id="modalTitle" class="font-bold text-sm text-gray-800 mb-1">Informasi</h4>
+            <p id="modalMessage" class="text-xs text-gray-600 mb-4">Pesan sistem...</p>
+            <button onclick="closeCustomModal()" class="bg-memoGreen text-memoCream px-4 py-1.5 rounded text-xs font-semibold hover:bg-memoBrown w-full">Tutup</button>
+        </div>
+    </div>
+
+    <!-- Application Logic Script -->
+    <script>
+        // Number to Words Converter in Indonesian (Terbilang) with explicit spaced out words
+        function terbilang(nilai) {
+            nilai = Math.floor(Math.abs(nilai));
+            var huruf = ["", "Satu", "Dua", "Tiga", "Empat", "Lima", "Enam", "Tujuh", "Delapan", "Sembilan", "Sepuluh", "Sebelas"];
+            var temp = "";
+            if (nilai < 12) {
+                temp = " " + huruf[nilai] + " ";
+            } else if (nilai < 20) {
+                temp = terbilang(nilai - 10) + " Belas ";
+            } else if (nilai < 100) {
+                temp = terbilang(Math.floor(nilai / 10)) + " Puluh " + terbilang(nilai % 10);
+            } else if (nilai < 200) {
+                temp = " Seratus " + terbilang(nilai - 100);
+            } else if (nilai < 1000) {
+                temp = terbilang(Math.floor(nilai / 100)) + " Ratus " + terbilang(nilai % 100);
+            } else if (nilai < 2000) {
+                temp = " Seribu " + terbilang(nilai - 1000);
+            } else if (nilai < 1000000) {
+                temp = terbilang(Math.floor(nilai / 1000)) + " Ribu " + terbilang(nilai % 1000);
+            } else if (nilai < 1000000000) {
+                temp = terbilang(Math.floor(nilai / 1000000)) + " Juta " + terbilang(nilai % 1000000);
+            } else if (nilai < 1000000000000) {
+                temp = terbilang(Math.floor(nilai / 1000000000)) + " Miliar " + terbilang(nilai % 1000000000);
+            } else if (nilai < 1000000000000000) {
+                temp = terbilang(Math.floor(nilai / 1000000000000)) + " Triliun " + terbilang(nilai % 1000000000000);
+            }
+            return temp.replace(/\s+/g, ' ').trim();
+        }
+
+        function getTerbilangRupiah(nominal) {
+            if (isNaN(nominal) || nominal <= 0) return "(Nol Rupiah)";
+            let hasil = terbilang(nominal);
+            let spaced = hasil.split(' ').join('   ');
+            return "(" + spaced + "   Rupiah)";
+        }
+
+        // Roman Numerals for Month
+        function getRomanMonth(monthIndex) {
+            const romawi = ["I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X", "XI", "XII"];
+            return romawi[monthIndex];
+        }
+
+        // Automatic Sequential Numbering with Monthly Reset
+        function generateMemoNumber() {
+            const now = new Date();
+            const year = now.getFullYear();
+            const month = now.getMonth();
+            const roman = getRomanMonth(month);
+
+            const storageKeyYear = 'trb_memo_year';
+            const storageKeyMonth = 'trb_memo_month';
+            const storageKeySeq = 'trb_memo_seq';
+
+            let savedYear = localStorage.getItem(storageKeyYear);
+            let savedMonth = localStorage.getItem(storageKeyMonth);
+            let seq = parseInt(localStorage.getItem(storageKeySeq) || '0', 10);
+
+            if (savedYear !== year.toString() || savedMonth !== month.toString()) {
+                seq = 1;
+                localStorage.setItem(storageKeyYear, year);
+                localStorage.setItem(storageKeyMonth, month);
+            } else {
+                seq += 1;
+            }
+
+            localStorage.setItem(storageKeySeq, seq);
+            let paddedSeq = String(seq).padStart(3, '0');
+            return `TRB/${year}/${roman}/${paddedSeq}`;
+        }
+
+        // Initial Data rows
+        let items = [
+            { description: 'Pembelian Lisensi Software & Domain', qty: '1', price: '1.500.000' },
+            { description: 'Konsumsi Rapat Koordinasi Divisi', qty: '5', price: '75.000' }
+        ];
+
+        // Format number with dots as thousand separators
+        function formatNumber(val) {
+            let clean = String(val).replace(/\D/g, '');
+            if (!clean) return '';
+            return Number(clean).toLocaleString('id-ID');
+        }
+
+        function renderTable() {
+            const tbody = document.getElementById('itemsTableBody');
+            tbody.innerHTML = '';
+            
+            items.forEach((item, index) => {
+                let cleanQty = parseFloat(String(item.qty).replace(/\./g, '').replace(/,/g, '.')) || 0;
+                let cleanPrice = parseFloat(String(item.price).replace(/\./g, '').replace(/,/g, '.')) || 0;
+                let subTotal = cleanQty * cleanPrice;
+
+                let tr = document.createElement('tr');
+                tr.className = "hover:bg-memoCream/20 transition";
+                tr.innerHTML = `
+                    <td class="border border-memoPeach/50 p-1 text-center font-mono">${index + 1}</td>
+                    <td class="border border-memoPeach/50 p-1">
+                        <input type="text" value="${item.description}" oninput="updateItemData(${index}, 'description', this.value)" placeholder="Keterangan pengeluaran..." class="w-full bg-transparent px-1 focus:outline-none focus:bg-white rounded text-xs" />
+                    </td>
+                    <td class="border border-memoPeach/50 p-1 text-center">
+                        <input type="text" value="${item.qty}" oninput="updateItemData(${index}, 'qty', this.value)" placeholder="QTY" class="w-full text-center bg-transparent px-1 focus:outline-none focus:bg-white rounded font-mono text-xs" />
+                    </td>
+                    <td class="border border-memoPeach/50 p-1 text-right">
+                        <input type="text" value="${item.price}" oninput="updatePriceInput(${index}, this)" placeholder="Harga Satuan" class="w-full text-right bg-transparent px-1 focus:outline-none focus:bg-white rounded font-mono text-xs" />
+                    </td>
+                    <td class="border border-memoPeach/50 p-1 text-right font-mono font-medium px-2" id="subtotal_${index}">
+                        Rp ${subTotal.toLocaleString('id-ID')}
+                    </td>
+                    <td class="no-print border border-memoPeach/50 p-1 text-center">
+                        <button onclick="removeItem(${index})" class="text-red-500 hover:text-red-700 p-0.5 rounded transition" title="Hapus Baris">
+                            <i class="fa-solid fa-trash-can text-xs"></i>
+                        </button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+
+            calculateTotalsOnly();
+        }
+
+        function updateItemData(index, field, value) {
+            items[index][field] = value;
+            
+            let cleanQty = parseFloat(String(items[index].qty).replace(/\./g, '').replace(/,/g, '.')) || 0;
+            let cleanPrice = parseFloat(String(items[index].price).replace(/\./g, '').replace(/,/g, '.')) || 0;
+            let subTotal = cleanQty * cleanPrice;
+            
+            const subtotalEl = document.getElementById(`subtotal_${index}`);
+            if (subtotalEl) {
+                subtotalEl.innerText = `Rp ${subTotal.toLocaleString('id-ID')}`;
+            }
+
+            calculateTotalsOnly();
+        }
+
+        function updatePriceInput(index, el) {
+            let cursorPosition = el.selectionStart;
+            let oldLength = el.value.length;
+
+            let formatted = formatNumber(el.value);
+            el.value = formatted;
+            
+            let newLength = el.value.length;
+            cursorPosition = Math.max(0, cursorPosition + (newLength - oldLength));
+            try {
+                el.setSelectionRange(cursorPosition, cursorPosition);
+            } catch (e) {}
+
+            updateItemData(index, 'price', formatted);
+        }
+
+        function addNewRow() {
+            items.push({ description: '', qty: '1', price: '0' });
+            renderTable();
+        }
+
+        function removeItem(index) {
+            if (items.length > 1) {
+                items.splice(index, 1);
+                renderTable();
+            } else {
+                showModal("Peringatan", "Minimal harus ada 1 baris keterangan pengeluaran.", "warning");
+            }
+        }
+
+        function calculateTotalsOnly() {
+            let subTotal = items.reduce((sum, item) => {
+                let q = parseFloat(String(item.qty).replace(/\./g, '').replace(/,/g, '.')) || 0;
+                let p = parseFloat(String(item.price).replace(/\./g, '').replace(/,/g, '.')) || 0;
+                return sum + (q * p);
+            }, 0);
+
+            let usePpn = document.getElementById('ppnToggle').checked;
+            let ppn = usePpn ? subTotal * 0.11 : 0;
+            
+            let dpPercent = parseFloat(document.getElementById('dpPercent').value) || 0;
+            let grandTotal = subTotal + ppn;
+            let dpAmount = (grandTotal * dpPercent) / 100;
+
+            document.getElementById('displaySubTotal').innerText = `Rp ${subTotal.toLocaleString('id-ID')}`;
+            document.getElementById('displayPpn').innerText = `Rp ${ppn.toLocaleString('id-ID')}`;
+            document.getElementById('displayDpAmount').innerText = `Rp ${dpAmount.toLocaleString('id-ID')}`;
+            document.getElementById('displayGrandTotal').innerText = `Rp ${grandTotal.toLocaleString('id-ID')}`;
+
+            let targetVal = dpPercent > 0 ? dpAmount : grandTotal;
+            let labelText = dpPercent > 0 ? `DP (${dpPercent}%)` : 'Grand Total';
+            document.getElementById('terbilangLabel').innerText = labelText;
+            document.getElementById('terbilangText').innerText = getTerbilangRupiah(targetVal);
+        }
+
+        function calculateTotals() {
+            calculateTotalsOnly();
+        }
+
+        function initMemoForm() {
+            document.getElementById('memoNumber').value = generateMemoNumber();
+            
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            const todayStr = new Date().toLocaleDateString('id-ID', options);
+            document.getElementById('memoDate').value = todayStr;
+            document.getElementById('printTimestamp').innerText = new Date().toLocaleString('id-ID');
+
+            const savedWebhook = localStorage.getItem('trb_webhook_url');
+            if (savedWebhook) {
+                document.getElementById('webhookUrl').value = savedWebhook;
+            }
+
+            renderTable();
+        }
+
+        function resetMemoForm() {
+            if (confirm("Buat nomor memo baru dan reset form?")) {
+                localStorage.removeItem('trb_memo_seq');
+                document.getElementById('memoNumber').value = generateMemoNumber();
+                document.getElementById('paidTo').value = '';
+                document.getElementById('bankAccount').value = '';
+                document.getElementById('bankName').value = '';
+                items = [{ description: '', qty: '1', price: '0' }];
+                renderTable();
+                showModal("Berhasil", "Form memo berhasil di-reset.", "success");
+            }
+        }
+
+        function openConfigModal() {
+            document.getElementById('configModal').classList.remove('hidden');
+        }
+
+        function closeConfigModal() {
+            document.getElementById('configModal').classList.add('hidden');
+        }
+
+        function saveConfig() {
+            const url = document.getElementById('webhookUrl').value.trim();
+            localStorage.setItem('trb_webhook_url', url);
+            closeConfigModal();
+            showModal("Berhasil", "URL Webhook Spreadsheet berhasil disimpan.", "success");
+        }
+
+        async function sendToSpreadsheet() {
+            const webhookUrl = document.getElementById('webhookUrl').value.trim();
+            if (!webhookUrl) {
+                showModal("Perhatian", "Harap atur URL Webhook Google Apps Script terlebih dahulu melalui tombol Webhook.", "warning");
+                openConfigModal();
+                return;
+            }
+
+            const btn = document.getElementById('btnSend');
+            btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin mr-1"></i> Mengirim...`;
+            btn.disabled = true;
+
+            let computedSubTotal = items.reduce((sum, item) => {
+                let q = parseFloat(String(item.qty).replace(/\./g, '').replace(/,/g, '.')) || 0;
+                let p = parseFloat(String(item.price).replace(/\./g, '').replace(/,/g, '.')) || 0;
+                return sum + (q * p);
+            }, 0);
+            let usePpn = document.getElementById('ppnToggle').checked;
+            let computedPpn = usePpn ? computedSubTotal * 0.11 : 0;
+            let dpPercent = parseFloat(document.getElementById('dpPercent').value) || 0;
+            let computedGrandTotal = computedSubTotal + computedPpn;
+            let computedDpAmount = (computedGrandTotal * dpPercent) / 100;
+
+            const payload = {
+                memoNumber: document.getElementById('memoNumber').value,
+                memoDate: document.getElementById('memoDate').value,
+                division: document.getElementById('memoDivision').value,
+                paidTo: document.getElementById('paidTo').value,
+                bankAccount: document.getElementById('bankAccount').value,
+                bankName: document.getElementById('bankName').value,
+                items: JSON.stringify(items),
+                subTotal: computedSubTotal,
+                ppn: computedPpn,
+                dpPercent: dpPercent,
+                dpAmount: computedDpAmount,
+                grandTotal: computedGrandTotal,
+                terbilang: document.getElementById('terbilangText').innerText,
+                notes: document.getElementById('memoNotes').value
+            };
+
+            try {
+                await fetch(webhookUrl, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                showModal("Berhasil", "Data memo berhasil dikirim ke Google Spreadsheet!", "success");
+            } catch (error) {
+                console.error(error);
+                showModal("Gagal", "Terjadi kesalahan saat mengirim data ke spreadsheet.", "error");
+            } finally {
+                btn.innerHTML = `<i class="fa-solid fa-cloud-arrow-up mr-1"></i> Kirim Sheet`;
+                btn.disabled = false;
+            }
+        }
+
+        function showModal(title, message, type = "success") {
+            document.getElementById('modalTitle').innerText = title;
+            document.getElementById('modalMessage').innerText = message;
+            const iconDiv = document.getElementById('modalIcon');
+            if (type === "success") {
+                iconDiv.innerHTML = `<i class="fa-solid fa-circle-check text-memoGreen"></i>`;
+            } else if (type === "warning") {
+                iconDiv.innerHTML = `<i class="fa-solid fa-triangle-exclamation text-amber-500"></i>`;
+            } else {
+                iconDiv.innerHTML = `<i class="fa-solid fa-circle-xmark text-red-500"></i>`;
+            }
+            document.getElementById('customModal').classList.remove('hidden');
+        }
+
+        function closeCustomModal() {
+            document.getElementById('customModal').classList.add('hidden');
+        }
+
+        window.onload = function() {
+            initMemoForm();
+        }
+    </script>
+</body>
+</html>
