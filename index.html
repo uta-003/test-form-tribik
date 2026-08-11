@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Modern Memo Application - PT Balai Lelang Tribik</title>
+    <!-- Favicon Form SVG -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%231D4533'%3E%3Cpath d='M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z'/%3E%3C/svg%3E">
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -29,7 +31,7 @@
         @media print {
             @page {
                 size: A4 portrait;
-                margin: 4mm 6mm;
+                margin: 2mm 4mm;
             }
             body {
                 background: white !important;
@@ -43,10 +45,10 @@
                 box-shadow: none !important;
                 border: 1px solid #F9D2BA !important;
                 margin: 0 auto !important;
-                padding: 4px !important;
+                padding: 2px !important;
                 width: 100% !important;
                 max-width: 100% !important;
-                font-size: 10px !important;
+                font-size: 9.5px !important;
                 background: white !important;
             }
             input, select, textarea {
@@ -58,7 +60,7 @@
                 -webkit-appearance: none;
             }
             textarea { resize: none; }
-            table { font-size: 10px !important; }
+            table { font-size: 9.5px !important; }
             * {
                 -webkit-print-color-adjust: exact !important;
                 print-color-adjust: exact !important;
@@ -66,9 +68,10 @@
         }
     </style>
 </head>
-<body class="bg-memoCream/40 min-h-screen py-3 px-2 flex flex-col items-center text-xs">
+<body class="bg-memoCream/40 min-h-screen py-2 px-2 flex flex-col items-center text-xs">
 
-    <div class="no-print w-full max-w-4xl bg-white shadow-md rounded-lg p-2.5 mb-2 flex flex-wrap items-center justify-between gap-2 border border-memoPeach">
+    <!-- Top Action Bar (No Print) -->
+    <div class="no-print w-full max-w-4xl bg-white shadow-md rounded-lg p-2 mb-2 flex flex-wrap items-center justify-between gap-2 border border-memoPeach">
         <div class="flex items-center space-x-2">
             <span class="bg-memoGreen text-memoCream px-2.5 py-1 rounded-md font-bold text-xs"><i class="fa-solid fa-receipt mr-1"></i> TRB MEMO</span>
             <span class="text-memoBrown font-medium text-xs">Sistem Pengeluaran & Pembayaran Terpadu</span>
@@ -78,7 +81,7 @@
                 <i class="fa-solid fa-plus mr-1"></i> Baris
             </button>
             <button onclick="resetMemoForm()" class="bg-gray-200 text-gray-700 hover:bg-gray-300 px-2.5 py-1 rounded font-semibold transition text-xs flex items-center">
-                <i class="fa-solid fa-rotate-left mr-1"></i> Reset
+                <i class="fa-solid fa-rotate-left mr-1"></i> Reset & Nomor Baru
             </button>
             <button onclick="openConfigModal()" class="bg-memoBrown text-memoCream hover:bg-memoGreen px-2.5 py-1 rounded font-semibold transition text-xs flex items-center">
                 <i class="fa-solid fa-gear mr-1"></i> Webhook
@@ -92,10 +95,11 @@
         </div>
     </div>
 
-    <div class="print-container w-full max-w-4xl bg-white shadow-xl rounded-xl border border-memoPeach/80 overflow-hidden flex flex-col justify-between p-2.5">
+    <!-- Main Memo Container -->
+    <div class="print-container w-full max-w-4xl bg-white shadow-xl rounded-xl border border-memoPeach/80 overflow-hidden flex flex-col justify-between p-2">
         
         <!-- Memo Header Banner -->
-        <div class="bg-memoGreen text-memoCream px-3 py-2 flex justify-between items-center rounded-lg mb-2">
+        <div class="bg-memoGreen text-memoCream px-3 py-2 flex justify-between items-center rounded-lg mb-1.5">
             <div>
                 <h1 class="font-bold text-sm tracking-wider uppercase text-memoCream">PT Balai Lelang Tribik</h1>
                 <p class="text-[10px] text-memoPeach/90">MEMO KAS KELUAR (CASH OUT)</p>
@@ -106,8 +110,9 @@
             </div>
         </div>
 
-        <div class="space-y-2">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-2 bg-memoCream/30 p-2 rounded-lg border border-memoPeach/60">
+        <div class="space-y-1.5">
+            <!-- Metadata Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-2 bg-memoCream/30 p-1.5 rounded-lg border border-memoPeach/60">
                 
                 <!-- Left Metadata Details -->
                 <div class="space-y-1">
@@ -148,6 +153,7 @@
                 </div>
             </div>
 
+            <!-- Items Table -->
             <div class="overflow-x-auto">
                 <table class="w-full border-collapse border border-memoPeach text-xs">
                     <thead>
@@ -166,10 +172,11 @@
                 </table>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-12 gap-2 items-start">
+            <!-- Calculations & Terbilang Section -->
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-1.5 items-start">
                 
                 <!-- Terbilang & Catatan Box -->
-                <div class="md:col-span-7 space-y-1.5">
+                <div class="md:col-span-7 space-y-1">
                     <div class="bg-memoCream/30 border border-memoPeach rounded p-1.5 flex flex-col justify-between">
                         <div>
                             <span class="text-[10px] font-bold text-memoBrown uppercase tracking-wide block mb-0.5">
@@ -227,6 +234,7 @@
                 </div>
             </div>
 
+            <!-- Signatures Section - Compact and Neatly Aligned -->
             <div class="grid grid-cols-1 md:grid-cols-3 gap-1.5 text-center text-[10px] pt-1 border-t border-memoPeach">
                 
                 <!-- 1. PEMOHON -->
@@ -294,7 +302,7 @@
         </div>
 
         <!-- Footer Note -->
-        <div class="bg-memoCream/50 px-3 py-1 border-t border-memoPeach text-center text-[9px] text-gray-600 flex justify-between items-center mt-2">
+        <div class="bg-memoCream/50 px-3 py-1 border-t border-memoPeach text-center text-[9px] text-gray-600 flex justify-between items-center mt-1">
             <span>2026 © Nunu Tribik. All Rights Reserved.</span>
             <span>Dicetak otomatis pada: <span id="printTimestamp"></span></span>
         </div>
@@ -374,7 +382,7 @@
             return romawi[monthIndex];
         }
 
-        // Automatic Sequential Numbering with Monthly Reset
+        // Automatic Sequential Numbering with Monthly Reset (Increments correctly on new memo / reset)
         function generateMemoNumber() {
             const now = new Date();
             const year = now.getFullYear();
@@ -389,6 +397,7 @@
             let savedMonth = localStorage.getItem(storageKeyMonth);
             let seq = parseInt(localStorage.getItem(storageKeySeq) || '0', 10);
 
+            // If month or year changed, reset sequence to 1, otherwise increment automatically
             if (savedYear !== year.toString() || savedMonth !== month.toString()) {
                 seq = 1;
                 localStorage.setItem(storageKeyYear, year);
@@ -555,16 +564,15 @@
         }
 
         function resetMemoForm() {
-            if (confirm("Buat nomor memo baru dan reset form?")) {
-                localStorage.removeItem('trb_memo_seq');
-                document.getElementById('memoNumber').value = generateMemoNumber();
-                document.getElementById('paidTo').value = '';
-                document.getElementById('bankAccount').value = '';
-                document.getElementById('bankName').value = '';
-                items = [{ description: '', qty: '1', price: '0' }];
-                renderTable();
-                showModal("Berhasil", "Form memo berhasil di-reset.", "success");
-            }
+            document.getElementById('memoNumber').value = generateMemoNumber();
+            document.getElementById('paidTo').value = '';
+            document.getElementById('bankAccount').value = '';
+            document.getElementById('bankName').value = '';
+            document.getElementById('dpPercent').value = '0';
+            document.getElementById('memoNotes').value = '';
+            items = [{ description: '', qty: '1', price: '0' }];
+            renderTable();
+            showModal("Berhasil", "Nomor memo baru telah dibuat dan form berhasil di-reset.", "success");
         }
 
         function openConfigModal() {
@@ -616,7 +624,8 @@
                 items: JSON.stringify(items),
                 subTotal: computedSubTotal,
                 ppn: computedPpn,
-                grandTotal: computedGrandTotal, placeholderDp: dpPercent,
+                grandTotal: computedGrandTotal,
+                dpPercent: dpPercent,
                 dpAmount: computedDpAmount,
                 sisaPembayaran: computedSisa,
                 terbilang: document.getElementById('terbilangText').innerText,
