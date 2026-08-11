@@ -394,32 +394,32 @@
                                 </div>
 
                                 <!-- Upload Foto KTP / ID Card / Kamera Live -->
-                            <div class="md:col-span-3">
-                                <label class="block text-xs font-bold text-amber-200 uppercase tracking-wider mb-2">Foto KTP / ID Card <span class="text-amber-400" aria-hidden="true">*</span></label>
-                                <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 max-w-xl">
-                                    <input type="file" id="cekKtpFile" accept="image/*" aria-required="true" onchange="handleKtpUpload(this, 'cekKtpPreview', 'cekKtpData', 'cekKtpFilename')" class="hidden">
-                                    
-                                    <label for="cekKtpFile" class="cursor-pointer red-input rounded-xl px-3.5 py-3 text-xs font-semibold text-amber-100 hover:text-white transition flex items-center justify-between border border-dashed border-[#b60001]/50 min-h-[42px] flex-grow">
-                                        <span id="cekKtpFilename" class="truncate max-w-[200px] sm:max-w-[260px]"><i class="fa-solid fa-id-card text-amber-400 mr-2" aria-hidden="true"></i> Pilih File KTP...</span>
-                                        <span class="px-2.5 py-1 bg-[#b60001] text-white rounded-lg text-[10px] font-bold uppercase shrink-0 shadow">Upload</span>
-                                    </label>
+                                <div class="md:col-span-3">
+                                    <label class="block text-xs font-bold text-amber-200 uppercase tracking-wider mb-2">Foto KTP / ID Card <span class="text-amber-400" aria-hidden="true">*</span></label>
+                                    <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 max-w-xl">
+                                        <input type="file" id="cekKtpFile" accept="image/*" aria-required="true" onchange="handleKtpUpload(this, 'cekKtpPreview', 'cekKtpData', 'cekKtpFilename')" class="hidden">
+                                        
+                                        <label for="cekKtpFile" class="cursor-pointer red-input rounded-xl px-3.5 py-3 text-xs font-semibold text-amber-100 hover:text-white transition flex items-center justify-between border border-dashed border-[#b60001]/50 min-h-[42px] flex-grow">
+                                            <span id="cekKtpFilename" class="truncate max-w-[200px] sm:max-w-[260px]"><i class="fa-solid fa-id-card text-amber-400 mr-2" aria-hidden="true"></i> Pilih File KTP...</span>
+                                            <span class="px-2.5 py-1 bg-[#b60001] text-white rounded-lg text-[10px] font-bold uppercase shrink-0 shadow">Upload</span>
+                                        </label>
 
-                                    <button type="button" onclick="openKtpCamera('cekKtpPreview', 'cekKtpData', 'cekKtpFilename')" class="px-4 py-3 rounded-xl bg-amber-500 hover:bg-amber-600 text-slate-950 font-extrabold text-xs transition flex items-center justify-center gap-2 active:scale-95 shadow shrink-0 min-h-[42px]">
-                                        <i class="fa-solid fa-camera text-sm" aria-hidden="true"></i> Buka Kamera KTP
-                                    </button>
-                                </div>
+                                        <button type="button" onclick="openKtpCamera('cekKtpPreview', 'cekKtpData', 'cekKtpFilename')" class="px-4 py-3 rounded-xl bg-amber-500 hover:bg-amber-600 text-slate-950 font-extrabold text-xs transition flex items-center justify-center gap-2 active:scale-95 shadow shrink-0 min-h-[42px]">
+                                            <i class="fa-solid fa-camera text-sm" aria-hidden="true"></i> Buka Kamera KTP
+                                        </button>
+                                    </div>
 
-                                <input type="hidden" id="cekKtpData" value="">
-                                <div id="cekKtpPreview" class="hidden mt-3 relative w-36 h-24 rounded-xl overflow-hidden border border-[#b60001]/50 bg-[#0a0202] shadow">
-                                    <img class="w-full h-full object-cover" src="" alt="Pratinjau KTP Pemohon">
-                                    <button type="button" aria-label="Hapus Foto KTP" onclick="removeKtpUpload('cekKtpFile', 'cekKtpPreview', 'cekKtpData', 'cekKtpFilename')" class="absolute top-1 right-1 bg-rose-600 text-white rounded-full w-5 h-5 flex items-center justify-center text-[10px] shadow">
-                                        <i class="fa-solid fa-xmark" aria-hidden="true"></i>
-                                    </button>
+                                    <input type="hidden" id="cekKtpData" value="">
+                                    <div id="cekKtpPreview" class="hidden mt-3 relative w-36 h-24 rounded-xl overflow-hidden border border-[#b60001]/50 bg-[#0a0202] shadow">
+                                        <img class="w-full h-full object-cover" src="" alt="Pratinjau KTP Pemohon">
+                                        <button type="button" aria-label="Hapus Foto KTP" onclick="removeKtpUpload('cekKtpFile', 'cekKtpPreview', 'cekKtpData', 'cekKtpFilename')" class="absolute top-1 right-1 bg-rose-600 text-white rounded-full w-5 h-5 flex items-center justify-center text-[10px] shadow">
+                                            <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
 
-                        <!-- Dynamic Units Table for Cek Unit -->
+                            <!-- Dynamic Units Table for Cek Unit -->
                             <div class="bg-[#120505] p-4 sm:p-5 rounded-2xl border border-[#b60001]/30 space-y-4">
                                 <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1">
                                     <label class="block text-xs font-extrabold text-white uppercase tracking-wider">
@@ -858,10 +858,10 @@
             </div>
 
             <p class="text-xs text-amber-100/80 text-center">
-                Posisikan KTP / ID Card Anda di dalam garis-garis tepi panduan di bawah ini agar hasil foto rapi dan terbaca jelas.
+                Posisikan KTP / ID Card Anda di dalam garis-garis tepi panduan di bawah ini. Hasil foto akan otomatis dicrop sesuai garis tersebut.
             </p>
 
-            <div class="relative w-full aspect-[16/10] bg-black rounded-2xl overflow-hidden border border-[#b60001]/40 flex items-center justify-center">
+            <div id="cameraContainer" class="relative w-full aspect-[16/10] bg-black rounded-2xl overflow-hidden border border-[#b60001]/40 flex items-center justify-center">
                 <video id="cameraVideo" autoplay playsinline class="w-full h-full object-cover"></video>
                 <div class="ktp-overlay-frame flex items-center justify-center">
                     <span class="text-[10px] sm:text-xs font-bold text-amber-300 bg-black/60 px-2.5 py-1 rounded-md border border-amber-400/40 uppercase tracking-widest pointer-events-none">Area KTP / ID Card</span>
@@ -873,7 +873,7 @@
                     Batal
                 </button>
                 <button type="button" onclick="captureKtpPhoto()" class="px-6 py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-xs rounded-xl transition flex items-center gap-2 active:scale-95 shadow">
-                    <i class="fa-solid fa-camera-retro" aria-hidden="true"></i> Ambil / Potret Foto
+                    <i class="fa-solid fa-camera-retro" aria-hidden="true"></i> Ambil & Crop KTP
                 </button>
             </div>
         </div>
@@ -1414,7 +1414,7 @@
             }
         }
 
-        // --- Live Camera KTP Functions with Viewfinder Guide ---
+        // --- Live Camera KTP Functions with Viewfinder Guide & Crop ---
         async function openKtpCamera(previewId, dataId, filenameId) {
             playSound('click');
             activeCameraPreviewId = previewId;
@@ -1455,17 +1455,48 @@
 
         function captureKtpPhoto() {
             const video = document.getElementById('cameraVideo');
-            if (!video || !mediaStream) return;
+            const container = document.getElementById('cameraContainer');
+            if (!video || !mediaStream || !container) return;
 
             playSound('submit');
 
-            const canvas = document.createElement('canvas');
-            canvas.width = video.videoWidth || 1280;
-            canvas.height = video.videoHeight || 720;
-            const ctx = canvas.getContext('2d');
-            ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+            const videoWidth = video.videoWidth || 1280;
+            const videoHeight = video.videoHeight || 720;
 
-            const base64Data = canvas.toDataURL('image/jpeg', 0.88);
+            // Create temporary canvas for full frame
+            const fullCanvas = document.createElement('canvas');
+            fullCanvas.width = videoWidth;
+            fullCanvas.height = videoHeight;
+            const fullCtx = fullCanvas.getContext('2d');
+            fullCtx.drawImage(video, 0, 0, videoWidth, videoHeight);
+
+            // Calculate exact crop box matching the CSS .ktp-overlay-frame (width 82%, height 52%, centered)
+            const cWidth = container.clientWidth;
+            const cHeight = container.clientHeight;
+            
+            const frameW = cWidth * 0.82;
+            const frameH = cHeight * 0.52;
+            const frameX = (cWidth - frameW) / 2;
+            const frameY = (cHeight - frameH) / 2;
+
+            // Map UI coordinates to actual video pixel coordinates
+            const scaleX = videoWidth / cWidth;
+            const scaleY = videoHeight / cHeight;
+
+            const cropX = frameX * scaleX;
+            const cropY = frameY * scaleY;
+            const cropW = frameW * scaleX;
+            const cropH = frameH * scaleY;
+
+            // Create cropped canvas
+            const cropCanvas = document.createElement('canvas');
+            cropCanvas.width = cropW;
+            cropCanvas.height = cropH;
+            const cropCtx = cropCanvas.getContext('2d');
+
+            cropCtx.drawImage(fullCanvas, cropX, cropY, cropW, cropH, 0, 0, cropW, cropH);
+
+            const base64Data = cropCanvas.toDataURL('image/jpeg', 0.9);
 
             if (activeCameraDataId) {
                 const dataInput = document.getElementById(activeCameraDataId);
@@ -1484,12 +1515,12 @@
             if (activeCameraFilenameId) {
                 const fnLabel = document.getElementById(activeCameraFilenameId);
                 if (fnLabel) {
-                    fnLabel.innerHTML = `<i class="fa-solid fa-camera text-emerald-400 mr-2" aria-hidden="true"></i> Foto_KTP_Kamera.jpg`;
+                    fnLabel.innerHTML = `<i class="fa-solid fa-camera text-emerald-400 mr-2" aria-hidden="true"></i> KTP_Cropped_Guide.jpg`;
                 }
             }
 
             closeKtpCamera();
-            showToast('Foto KTP berhasil diambil via kamera!', 'success');
+            showToast('Foto KTP berhasil dipotong sesuai garis panduan!', 'success');
         }
 
         function clearSignature() {
@@ -1659,13 +1690,13 @@
                 doc.setFontSize(8);
                 doc.setFont('helvetica', 'bold');
                 doc.setTextColor(182, 0, 1);
-                doc.text('LAMPIRAN IDENTITAS (KTP / ID CARD)', 16, currentY + 6);
+                doc.text('LAMPIRAN IDENTITAS (KTP / ID CARD - CROP SESUAI PANDUAN)', 16, currentY + 6);
 
                 try {
-                    doc.addImage(record.ktpPhotoData, 'JPEG', 16, currentY + 8, 52, 26);
+                    doc.addImage(record.ktpPhotoData, 'JPEG', 16, currentY + 8, 56, 26);
                 } catch (e1) {
                     try {
-                        doc.addImage(record.ktpPhotoData, 'PNG', 16, currentY + 8, 52, 26);
+                        doc.addImage(record.ktpPhotoData, 'PNG', 16, currentY + 8, 56, 26);
                     } catch (e2) {
                         doc.setFont('helvetica', 'italic');
                         doc.setFontSize(8);
@@ -2175,7 +2206,7 @@
                 html += `
                     <div class="bg-[#120505] p-4 sm:p-5 rounded-2xl border border-[#b60001]/30 shadow-inner">
                         <div class="text-[10px] font-extrabold uppercase tracking-widest text-amber-400 mb-2.5 sm:mb-3 flex items-center gap-1.5">
-                            <i class="fa-solid fa-id-card" aria-hidden="true"></i> Lampiran Identitas (KTP / ID Card)
+                            <i class="fa-solid fa-id-card" aria-hidden="true"></i> Lampiran Identitas (KTP / ID Card Sesuai Panduan)
                         </div>
                         <div class="bg-[#0a0202] p-3 rounded-xl border border-[#b60001]/30 flex justify-center items-center">
                             <img src="${item.ktpPhotoData}" class="max-h-40 sm:max-h-48 rounded-lg object-contain border border-[#b60001]/40" alt="Foto KTP pemohon">
