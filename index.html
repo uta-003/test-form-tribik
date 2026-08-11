@@ -30,8 +30,8 @@
         body { font-family: 'Inter', sans-serif; }
         @media print {
             @page {
-                size: A4 portrait;
-                margin: 2mm 4mm;
+                size: 5.5in 8.5in;
+                margin: 4mm 6mm;
             }
             body {
                 background: white !important;
@@ -39,6 +39,8 @@
                 print-color-adjust: exact;
                 padding: 0 !important;
                 margin: 0 !important;
+                transform: scale(0.98);
+                transform-origin: top center;
             }
             .no-print { display: none !important; }
             .print-container {
@@ -80,8 +82,11 @@
             <button onclick="addNewRow()" class="bg-memoPeach text-memoBrown hover:bg-memoBrown hover:text-memoCream px-2.5 py-1 rounded font-semibold transition text-xs flex items-center shadow-sm">
                 <i class="fa-solid fa-plus mr-1"></i> Baris
             </button>
-            <button onclick="resetMemoForm()" class="bg-gray-200 text-gray-700 hover:bg-gray-300 px-2.5 py-1 rounded font-semibold transition text-xs flex items-center">
-                <i class="fa-solid fa-rotate-left mr-1"></i> Reset & Nomor Baru
+            <button onclick="generateNewMemoNumberOnly()" class="bg-amber-100 text-amber-800 hover:bg-amber-200 px-2.5 py-1 rounded font-semibold transition text-xs flex items-center shadow-sm" title="Buat Nomor Memo Baru Saja">
+                <i class="fa-solid fa-hashtag mr-1"></i> Nomor Baru
+            </button>
+            <button onclick="resetMemoForm()" class="bg-gray-200 text-gray-700 hover:bg-gray-300 px-2.5 py-1 rounded font-semibold transition text-xs flex items-center" title="Reset Semua Data Form & Nomor ke 001">
+                <i class="fa-solid fa-rotate-left mr-1"></i> Reset Form
             </button>
             <button onclick="openConfigModal()" class="bg-memoBrown text-memoCream hover:bg-memoGreen px-2.5 py-1 rounded font-semibold transition text-xs flex items-center">
                 <i class="fa-solid fa-gear mr-1"></i> Webhook
@@ -382,8 +387,8 @@
             return romawi[monthIndex];
         }
 
-        // Automatic Sequential Numbering with Monthly Reset (Increments correctly on new memo / reset)
-        function generateMemoNumber() {
+        // Automatic Sequential Numbering with Monthly Reset & Manual Reset Support
+        function generateMemoNumber(forceReset = false) {
             const now = new Date();
             const year = now.getFullYear();
             const month = now.getMonth();
@@ -397,12 +402,14 @@
             let savedMonth = localStorage.getItem(storageKeyMonth);
             let seq = parseInt(localStorage.getItem(storageKeySeq) || '0', 10);
 
-            // If month or year changed, reset sequence to 1, otherwise increment automatically
-            if (savedYear !== year.toString() || savedMonth !== month.toString()) {
+            // If forced reset or month/year changed, reset sequence to 1
+            if (forceReset || savedYear !== year.toString() || savedMonth !== month.toString()) {
                 seq = 1;
                 localStorage.setItem(storageKeyYear, year);
                 localStorage.setItem(storageKeyMonth, month);
-            } else {
+            } else if (seq === 0) {
+                seq = 1;
+            } else if (!forceReset) {
                 seq += 1;
             }
 
@@ -563,16 +570,26 @@
             renderTable();
         }
 
-        function resetMemoForm() {
+        // Generate new memo number only without clearing data
+        function generateNewMemoNumberOnly() {
             document.getElementById('memoNumber').value = generateMemoNumber();
+            showModal("Berhasil", "Nomor memo baru telah dibuat.", "success");
+        }
+
+        // Reset entire form data and reset sequence counter back to 001
+        function resetMemoForm() {
             document.getElementById('paidTo').value = '';
             document.getElementById('bankAccount').value = '';
             document.getElementById('bankName').value = '';
             document.getElementById('dpPercent').value = '0';
             document.getElementById('memoNotes').value = '';
             items = [{ description: '', qty: '1', price: '0' }];
+            
+            // Reset sequence to 001
+            document.getElementById('memoNumber').value = generateMemoNumber(true);
+            
             renderTable();
-            showModal("Berhasil", "Nomor memo baru telah dibuat dan form berhasil di-reset.", "success");
+            showModal("Berhasil", "Formulir dan nomor urut memo berhasil di-reset ke 001.", "success");
         }
 
         function openConfigModal() {
