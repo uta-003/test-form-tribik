@@ -4,11 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Modern Memo Application - PT Balai Lelang Tribik</title>
-    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Google Fonts Inter -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script>
         tailwind.config = {
@@ -71,7 +68,6 @@
 </head>
 <body class="bg-memoCream/40 min-h-screen py-3 px-2 flex flex-col items-center text-xs">
 
-    <!-- Top Action Bar (No Print) -->
     <div class="no-print w-full max-w-4xl bg-white shadow-md rounded-lg p-2.5 mb-2 flex flex-wrap items-center justify-between gap-2 border border-memoPeach">
         <div class="flex items-center space-x-2">
             <span class="bg-memoGreen text-memoCream px-2.5 py-1 rounded-md font-bold text-xs"><i class="fa-solid fa-receipt mr-1"></i> TRB MEMO</span>
@@ -96,7 +92,6 @@
         </div>
     </div>
 
-    <!-- Main Memo Container -->
     <div class="print-container w-full max-w-4xl bg-white shadow-xl rounded-xl border border-memoPeach/80 overflow-hidden flex flex-col justify-between p-2.5">
         
         <!-- Memo Header Banner -->
@@ -111,7 +106,6 @@
             </div>
         </div>
 
-        <!-- Memo Metadata Section - Tightly Spaced -->
         <div class="space-y-2">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-2 bg-memoCream/30 p-2 rounded-lg border border-memoPeach/60">
                 
@@ -141,20 +135,19 @@
                 <div class="space-y-1">
                     <div class="flex items-center justify-between">
                         <label class="font-semibold text-gray-700 text-[11px]">Dibayar Ke:</label>
-                        <input type="text" id="paidTo" placeholder="Nama Penerima / Vendor" class="bg-white border border-memoPeach rounded px-1.5 py-0.5 w-44 focus:outline-none focus:border-memoGreen text-xs" />
+                        <input type="text" id="paidTo" class="bg-white border border-memoPeach rounded px-1.5 py-0.5 w-44 focus:outline-none focus:border-memoGreen text-xs" />
                     </div>
                     <div class="flex items-center justify-between">
                         <label class="font-semibold text-gray-700 text-[11px]">No. Rek / VA:</label>
-                        <input type="text" id="bankAccount" placeholder="Nomor Rekening / VA" class="bg-white border border-memoPeach rounded px-1.5 py-0.5 w-44 font-mono focus:outline-none focus:border-memoGreen text-xs" />
+                        <input type="text" id="bankAccount" class="bg-white border border-memoPeach rounded px-1.5 py-0.5 w-44 font-mono focus:outline-none focus:border-memoGreen text-xs" />
                     </div>
                     <div class="flex items-center justify-between">
                         <label class="font-semibold text-gray-700 text-[11px]">Nama Bank:</label>
-                        <input type="text" id="bankName" placeholder="Contoh: BCA, Mandiri" class="bg-white border border-memoPeach rounded px-1.5 py-0.5 w-44 focus:outline-none focus:border-memoGreen text-xs" />
+                        <input type="text" id="bankName" class="bg-white border border-memoPeach rounded px-1.5 py-0.5 w-44 focus:outline-none focus:border-memoGreen text-xs" />
                     </div>
                 </div>
             </div>
 
-            <!-- Items Table Section -->
             <div class="overflow-x-auto">
                 <table class="w-full border-collapse border border-memoPeach text-xs">
                     <thead>
@@ -173,7 +166,6 @@
                 </table>
             </div>
 
-            <!-- Calculations & Terbilang Section -->
             <div class="grid grid-cols-1 md:grid-cols-12 gap-2 items-start">
                 
                 <!-- Terbilang & Catatan Box -->
@@ -193,7 +185,7 @@
                         <span class="text-[10px] font-bold text-memoBrown uppercase tracking-wide block mb-0.5">
                             <i class="fa-solid fa-pen-to-square mr-1"></i> Catatan:
                         </span>
-                        <textarea id="memoNotes" placeholder="Tambahkan catatan khusus memo di sini..." class="w-full bg-white/80 border border-memoPeach rounded p-1 text-[11px] text-gray-700 focus:outline-none focus:border-memoGreen resize-none h-10"></textarea>
+                        <textarea id="memoNotes" class="w-full bg-white/80 border border-memoPeach rounded p-1 text-[11px] text-gray-700 focus:outline-none focus:border-memoGreen resize-none h-10"></textarea>
                     </div>
                 </div>
 
@@ -235,7 +227,6 @@
                 </div>
             </div>
 
-            <!-- Signatures Section - Compact and Neatly Aligned -->
             <div class="grid grid-cols-1 md:grid-cols-3 gap-1.5 text-center text-[10px] pt-1 border-t border-memoPeach">
                 
                 <!-- 1. PEMOHON -->
@@ -244,7 +235,7 @@
                         <div class="font-bold text-memoGreen uppercase tracking-wider mb-0.5">Pemohon</div>
                     </div>
                     <div class="flex flex-col justify-between">
-                        <div class="h-10"></div>
+                        <div class="h-12"></div>
                         <div class="flex flex-col items-center justify-end pb-0.5">
                             <div class="font-bold text-gray-800 leading-tight">Eko Nugraha Wicaksono</div>
                             <div class="text-memoBrown text-[8px] leading-tight mt-0.5 text-center">IT & Marcom</div>
@@ -258,14 +249,14 @@
                         <div class="font-bold text-memoGreen uppercase tracking-wider mb-1">Mengetahui</div>
                         <div class="grid grid-cols-2 gap-1">
                             <div class="flex flex-col justify-between border-r border-memoPeach/60 pr-1">
-                                <div class="h-10"></div>
+                                <div class="h-12"></div>
                                 <div class="flex flex-col items-center justify-end pb-0.5">
                                     <div class="font-bold text-gray-800 leading-tight">Siti Fatimah</div>
                                     <div class="text-memoBrown text-[8px] leading-tight mt-0.5 text-center">Ka. Div. HR, GA & IT Marcom</div>
                                 </div>
                             </div>
                             <div class="flex flex-col justify-between pl-1">
-                                <div class="h-10"></div>
+                                <div class="h-12"></div>
                                 <div class="flex flex-col items-center justify-end pb-0.5">
                                     <div class="font-bold text-gray-800 leading-tight">Suhendra Wahyudi</div>
                                     <div class="text-memoBrown text-[8px] leading-tight mt-0.5 text-center">Ka. Div. Operasional & Marketing</div>
@@ -281,14 +272,14 @@
                         <div class="font-bold text-memoGreen uppercase tracking-wider mb-1">Menyetujui</div>
                         <div class="grid grid-cols-2 gap-1">
                             <div class="flex flex-col justify-between border-r border-memoPeach/60 pr-1">
-                                <div class="h-10"></div>
+                                <div class="h-12"></div>
                                 <div class="flex flex-col items-center justify-end pb-0.5">
                                     <div class="font-bold text-gray-800 leading-tight">Martini</div>
                                     <div class="text-memoBrown text-[8px] leading-tight mt-0.5 text-center">Ka. Div. Acc & Finance</div>
                                 </div>
                             </div>
                             <div class="flex flex-col justify-between pl-1">
-                                <div class="h-10"></div>
+                                <div class="h-12"></div>
                                 <div class="flex flex-col items-center justify-end pb-0.5">
                                     <div class="font-bold text-gray-800 leading-tight">Tjung Subianto</div>
                                     <div class="text-memoBrown text-[8px] leading-tight mt-0.5 text-center">Direktur</div>
@@ -330,7 +321,7 @@
         </div>
     </div>
 
-    <!-- Custom Modal for Notifications (No Alert) -->
+    <!-- Custom Modal for Notifications -->
     <div id="customModal" class="fixed inset-0 bg-black/50 z-50 hidden flex items-center justify-center p-3">
         <div class="bg-white rounded-lg max-w-sm w-full p-4 shadow-xl border border-memoPeach text-center">
             <div id="modalIcon" class="text-3xl mb-2 text-memoGreen"><i class="fa-solid fa-circle-check"></i></div>
@@ -340,9 +331,8 @@
         </div>
     </div>
 
-    <!-- Application Logic Script -->
     <script>
-        // Number to Words Converter in Indonesian (Terbilang) with explicit spaced out words
+        // Number to Words Converter in Indonesian (Terbilang)
         function terbilang(nilai) {
             nilai = Math.floor(Math.abs(nilai));
             var huruf = ["", "Satu", "Dua", "Tiga", "Empat", "Lima", "Enam", "Tujuh", "Delapan", "Sembilan", "Sepuluh", "Sebelas"];
@@ -439,13 +429,13 @@
                 tr.innerHTML = `
                     <td class="border border-memoPeach/50 p-1 text-center font-mono">${index + 1}</td>
                     <td class="border border-memoPeach/50 p-1">
-                        <input type="text" value="${item.description}" oninput="updateItemData(${index}, 'description', this.value)" placeholder="Keterangan pengeluaran..." class="w-full bg-transparent px-1 focus:outline-none focus:bg-white rounded text-xs" />
+                        <input type="text" value="${item.description}" oninput="updateItemData(${index}, 'description', this.value)" class="w-full bg-transparent px-1 focus:outline-none focus:bg-white rounded text-xs" />
                     </td>
                     <td class="border border-memoPeach/50 p-1 text-center">
-                        <input type="text" value="${item.qty}" oninput="updateItemData(${index}, 'qty', this.value)" placeholder="QTY" class="w-full text-center bg-transparent px-1 focus:outline-none focus:bg-white rounded font-mono text-xs" />
+                        <input type="text" value="${item.qty}" oninput="updateItemData(${index}, 'qty', this.value)" class="w-full text-center bg-transparent px-1 focus:outline-none focus:bg-white rounded font-mono text-xs" />
                     </td>
                     <td class="border border-memoPeach/50 p-1 text-right">
-                        <input type="text" value="${item.price}" oninput="updatePriceInput(${index}, this)" placeholder="Harga Satuan" class="w-full text-right bg-transparent px-1 focus:outline-none focus:bg-white rounded font-mono text-xs" />
+                        <input type="text" value="${item.price}" oninput="updatePriceInput(${index}, this)" class="w-full text-right bg-transparent px-1 focus:outline-none focus:bg-white rounded font-mono text-xs" />
                     </td>
                     <td class="border border-memoPeach/50 p-1 text-right font-mono font-medium px-2" id="subtotal_${index}">
                         Rp ${subTotal.toLocaleString('id-ID')}
@@ -626,8 +616,7 @@
                 items: JSON.stringify(items),
                 subTotal: computedSubTotal,
                 ppn: computedPpn,
-                grandTotal: computedGrandTotal,
-                dpPercent: dpPercent,
+                grandTotal: computedGrandTotal, placeholderDp: dpPercent,
                 dpAmount: computedDpAmount,
                 sisaPembayaran: computedSisa,
                 terbilang: document.getElementById('terbilangText').innerText,
